@@ -1,0 +1,28 @@
+{
+	"FileVersion" : 1,
+	"Version" : 1,
+	"VersionName" : "1.0",
+	"FriendlyName" : "Replicated Vehicle Plugin",
+	"Description" : "Add vehicles that replicate over the network.",
+	"Category" : "Vehicles",
+	"CreatedBy" : "Jason El-Massih",
+	"CreatedByURL" : "http://jel-massih.com",
+	"DocsURL" : "",
+	"MarketplaceURL" : "",
+	"SupportURL" : "",
+	"EnabledByDefault" : false,
+	"CanContainContent" : false,
+	"IsBetaVersion" : false,
+	"Installed" : false,
+	"Modules" :
+	[
+		{
+			"Name" : "ReplicatedVehicle",
+			"Type" : "Runtime",
+      "LoadingPhase": "PreDefault",
+      "BlacklistPlatforms": [
+        "HTML5"
+      ]
+		}
+	]
+}
