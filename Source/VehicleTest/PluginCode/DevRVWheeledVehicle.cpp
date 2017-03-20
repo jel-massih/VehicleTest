@@ -5,7 +5,8 @@
 #include "WheeledVehicleMovementComponent4W.h"
 
 
-ADevRVWheeledVehicle::ADevRVWheeledVehicle()
+ADevRVWheeledVehicle::ADevRVWheeledVehicle(const FObjectInitializer& ObjectInitializer)
+	:Super(ObjectInitializer.SetDefaultSubobjectClass<URVWheeledVehicleMovementComponent>(AWheeledVehicle::VehicleMovement))
 {
 }
 
@@ -40,4 +41,28 @@ void ADevRVWheeledVehicle::Tick(float Delta)
 void ADevRVWheeledVehicle::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void ADevRVWheeledVehicle::PostNetReceivePhysicState()
+{
+	if (Role == ROLE_SimulatedProxy)
+	{
+		const FVector OldLocation = GetActorLocation();
+		const FVector NewLocation = ReplicatedMovement.Location;
+		const FQuat OldRotation = GetActorQuat();
+
+		
+		GetRVWheeledVehicleMovementComponent()->bNetworkSmoothingComplete = false;
+		GetRVWheeledVehicleMovementComponent()->SmoothCorrection(OldLocation, OldRotation, NewLocation, ReplicatedMovement.Rotation.Quaternion());
+	}
+	
+	/*UPrimitiveComponent* RootPrimComp = Cast<UPrimitiveComponent>(RootComponent);
+	if (RootPrimComp)
+	{
+		FRigidBodyState NewState;
+		ReplicatedMovement.CopyTo(NewState, this);
+
+		FVector DeltaPos(FVector::ZeroVector);
+		RootPrimComp->ConditionalApplyRigidBodyState(NewState, GEngine->PhysicErrorCorrection, DeltaPos);
+	}*/
 }

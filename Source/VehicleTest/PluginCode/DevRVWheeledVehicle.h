@@ -5,20 +5,22 @@
 UCLASS()
 class ADevRVWheeledVehicle : public AWheeledVehicle
 {
-	GENERATED_BODY()
+	GENERATED_UCLASS_BODY()
 
 public:
-	ADevRVWheeledVehicle();
-
 	// Begin Pawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 	// End Pawn interface
 
 	// Begin Actor interface
 	virtual void Tick(float Delta) override;
+	virtual void PostNetReceivePhysicState();
+
 protected:
 	virtual void BeginPlay() override;
 	// End Actor interface
+
+	class URVWheeledVehicleMovementComponent* GetRVWheeledVehicleMovementComponent() const { return Cast<URVWheeledVehicleMovementComponent>(VehicleMovement); }
 
 public:
 
